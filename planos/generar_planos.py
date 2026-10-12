@@ -40,7 +40,7 @@ H_SENTADO, H_PARADO, H_ORADOR = 1.20, 1.72, TARIMA[4] + 1.62
 # Cámaras: x, y, altura de lente, objetivo (x, y), ancho de encuadre (m), color
 CAMS = {
     "A": dict(pos=(5.8, 14.3), h=2.20, obj=(8.0, 1.0), ancho=11.0,
-              color="#1f6fd1", nombre="Cam A · Plano general (Daniel)",
+              color="#1f6fd1", nombre="Cam A · Plano general fijo",
               equipo="Nikon (Blanca) + trípode alto sobre tarima 0.40 m",
               sensor="Nikon APS-C (factor 1.5)", crop=1.5),
     "B": dict(pos=(0.6, 5.2), h=1.60, obj=(6.4, 1.8), ancho=1.6,
@@ -72,7 +72,7 @@ def cajetin(fig, titulo, lamina, total):
         ax.plot([x, x], [0.1, 0.9], "k-", lw=0.8, transform=ax.transAxes)
     ax.text(0.02, 0.5, f"XI CONGRESO BPW AMÉRICA LATINA · HOTEL MELIÁ LIMA\n{titulo}",
             va="center", fontsize=10, weight="bold", transform=ax.transAxes)
-    ax.text(0.43, 0.5, "Equipo: Antonio (C) · Gino (B) · Daniel (A)\nFecha de rodaje: 16–17 oct 2026",
+    ax.text(0.43, 0.5, "Equipo: Gino (B + vigila A) · Antonio (C) · Daniel (C2)\nFecha de rodaje: 16–17 oct 2026",
             va="center", fontsize=8, transform=ax.transAxes)
     ax.text(0.63, 0.5, "Medidas ESTIMADAS desde foto (±15 %)\nVerificar con wincha/láser",
             va="center", fontsize=8, color="#b00000", transform=ax.transAxes)
@@ -242,9 +242,10 @@ def lamina_planta(pdf, total):
     y = 0.98
     ax2.text(0, y, "LEYENDA", fontsize=11, weight="bold")
     y -= 0.04
-    items = [("#1f6fd1", "A", "Cam A – plano general · Daniel"),
+    items = [("#1f6fd1", "A", "Cam A – plano general fijo (Gino vigila)"),
              ("#d1491f", "B", "Cam B – plano medio + audio · Gino"),
              ("#2e9b4f", "C", "Cam C – estabilizador · Antonio"),
+             ("#7b3fb5", "D", "Apoyo C2 – iPhone + gimbal · Daniel"),
              ("#ffd400", "L", "Luz de relleno 45° (Cheng) · Gino"),
              ("white", "T", "Tomacorriente supuesto (verificar)"),
              ("#c00000", "", "Zona ciega por la columna"),
@@ -268,8 +269,8 @@ def lamina_planta(pdf, total):
     y -= 0.02
     ax2.text(0, y, "NOTAS DE RODAJE", fontsize=11, weight="bold"); y -= 0.035
     notas = [
-        "1. Cam A en el eje del pasillo (Daniel): único",
-        "   punto sin obstrucción que ve podio + mesa.",
+        "1. Cam A fija en el eje del pasillo: único punto",
+        "   sin obstrucción que ve podio + mesa.",
         "2. Cam A sobre tarima/cajón 0.40 m: en el Himno",
         "   el público se para y tapa un trípode normal.",
         "3. Cam B pegada a la pared izquierda (fila 2–3):",
@@ -388,8 +389,9 @@ def lamina_ficha(pdf, total):
         "• Cam A: un zoom estándar (18–55 mm en APS-C) cubre todo, entre 25 y 55 mm.\n"
         "• Cam B: necesita TELE. Para plano medio/primer plano del podio desde 7 m hacen falta ≈ 100–200 mm reales.\n"
         "   Si la Canon solo tiene 18–55 mm: acercar Cam B a 3–4 m del podio (fila 1, pared izq.) o alquilar un 55–250 mm.\n"
-        "• Cam C (estabilizador): gran angular 18–24 mm reales; acercarse al sujeto en vez de usar zoom.\n\n"
-        "AJUSTES COMUNES (las 3 cámaras iguales para que empaten en edición)\n"
+        "• Cam C (estabilizador): gran angular 18–24 mm reales; acercarse al sujeto en vez de usar zoom.\n"
+        "• Apoyo C2 (Daniel, iPhone + gimbal): lente 1x (26 mm eq.); evitar el zoom digital. 2x solo con buena luz.\n\n"
+        "AJUSTES COMUNES (todas las cámaras iguales, incl. iPhone, para que empaten en edición)\n"
         "• 1080p o 4K · 25 fps (o 24/30, pero el mismo en todas) · obturación 1/50 (1/60 si es 30 fps) — evita parpadeo de luces/proyector.\n"
         "• Balance de blancos MANUAL ≈ 3400 K (medir con tarjeta gris en la tarima) · ISO máx. 1600–3200.\n"
         "• Exponer para la piel del orador; aceptar pantalla quemada. Zebra 70 % en caras si la cámara lo permite.\n"
@@ -405,48 +407,54 @@ def lamina_ficha(pdf, total):
     pdf.savefig(fig); plt.close(fig)
 
 
+MORADO = "#7b3fb5"  # Daniel · apoyo C2 (iPhone)
+
 EQUIPO = [
+    ("Gino", "Cam B · Canon + trípode + solapa  ·  vigila Cam A  ·  Luz",
+     "Oradoras y autoridades en plano medio/cerrado; audio principal. Revisa grabación/batería de Cam A en cada pausa."),
     ("Antonio", "Cam C · Nikon propia + estabilizador",
-     "Móvil: desfile, público, detalles, EXPO, verticales. Dirección y enlace con la organización."),
-    ("Gino", "Cam B · Canon + trípode + solapa · Luz",
-     "Plano medio/cerrado de oradoras y autoridades. Audio principal. Monta y opera la luz."),
-    ("Daniel", "Cam A · Nikon (Blanca) + trípode alto",
-     "Opera la toma maestra (general ↔ general cerrado). En momentos 'solo C': B-roll en mano y respaldo de tarjetas."),
+     "Móvil principal: desfile, público, detalles. Dirección, enlace con la organización y respaldo de tarjetas."),
+    ("Daniel", "Apoyo C2 · iPhone + gimbal de celular",
+     "Tomas de apoyo: verticales 9:16 para reels, backstage, detalles, 2.º ángulo de desfile, velas y EXPO."),
+    ("—", "Cam A · Nikon (Blanca) + trípode alto",
+     "FIJA sin operador: toma maestra del escenario de principio a fin (ver láminas 01 y 02)."),
 ]
 
+# Hora, programa, Cam A (fija), Cam B · Gino, Cam C · Antonio, C2 · Daniel
 VIERNES = [
-    ("06:30–07:30", "Llegada y montaje", "Monta tarima/cajón Cam A, cables", "Audio con técnico, luz", "Balance de blancos 3 cám."),
-    ("07:30–08:00", "Llegada de delegaciones", "Plano general del salón llenándose", "Prueba de solapa", "Ingreso, banderas, backdrop"),
-    ("08:00–09:30", "INAUGURACIÓN (prioridad)", "Toma maestra continua", "Autoridades / podio", "Desfile (C1–C3), Himno"),
-    ("09:30–10:30", "Ejecutivo Internacional", "Toma maestra", "Oradoras", "Respaldo tarjetas inaug."),
-    ("10:30–11:00", "Pausa café + EXPO", "Cam A en mano: corte de cinta 2.º ángulo", "Descanso / baterías", "Stands, networking, verticales"),
-    ("11:00–13:15", "Ejecutivo Internacional", "Toma maestra (turnos)", "Intervenciones clave", "Descanso por turnos"),
-    ("13:15–14:45", "Almuerzo", "Respaldo de tarjetas + baterías", "Descanso", "Ambiente y brindis 15–20 min"),
-    ("14:50–16:45", "Mesas redondas", "Cam A a plano de panel completo", "Panelista que habla", "Público que pregunta"),
-    ("16:50–17:20", "Pausa café + EXPO", "Respaldo / apoyo testimonios", "Luz para testimonios", "Testimonios cortos"),
-    ("17:25–18:15", "Espacio «Joven»", "Toma maestra", "Oradoras", "Público, reacciones"),
-    ("18:15–19:00", "Conclusiones", "Cierre + desmontaje", "Desmontaje audio/luz", "Respaldo final"),
+    ("06:30–07:30", "Llegada y montaje", "Montar en cajón 0.40 m", "Audio, luz, monta Cam A", "Balance de blancos", "Prueba gimbal, WB iPhone"),
+    ("07:30–08:00", "Llegada de delegaciones", "Encuadre fijado", "Prueba de solapa", "Ingreso, banderas", "Backstage, backdrop (9:16)"),
+    ("08:00–09:30", "INAUGURACIÓN (prioridad)", "REC continuo", "Autoridades / podio", "Desfile de frente, Himno", "Desfile desde escenario, detalles"),
+    ("09:30–10:30", "Ejecutivo Internacional", "REC", "Oradoras", "Respaldo tarjetas", "Público, detalles (9:16)"),
+    ("10:30–11:00", "Pausa café + EXPO", "Pausa / batería (Gino)", "Baterías, revisa Cam A", "Corte de cinta", "Stands, networking (9:16)"),
+    ("11:00–13:15", "Ejecutivo Internacional", "REC", "Intervenciones clave", "Selectivo, por turnos", "Reacciones, por turnos"),
+    ("13:15–14:45", "Almuerzo", "Pausa / batería", "Descanso", "Brindis 15–20 min", "Ambiente almuerzo, descarga iPhone"),
+    ("14:50–16:45", "Mesas redondas", "Pausa (o panel general)", "Panelista que habla", "Público que pregunta", "Mesas no cubiertas por C"),
+    ("16:50–17:20", "Pausa café + EXPO", "Pausa", "Luz testimonios", "Testimonios cortos", "Stands, verticales"),
+    ("17:25–18:15", "Espacio «Joven»", "REC", "Oradoras", "Público, reacciones", "Verticales del espacio Joven"),
+    ("18:15–19:00", "Conclusiones", "REC + desmontaje", "Desmontaje audio/luz", "Respaldo final", "Cierre, salida de asistentes"),
 ]
 SABADO = [
-    ("07:15–08:30", "Llegada y montaje", "Monta Cam A, cables", "Audio, luz", "Balance de blancos"),
-    ("08:30–09:15", "Conf. Lilian Pinos", "Toma maestra", "Oradora", "Público, detalles"),
-    ("09:20–10:30", "Estatuto (no se filma)", "Respaldo de tarjetas", "Descanso", "Preselección Reel 2"),
-    ("10:35–11:05", "Pausa café + EXPO", "Cam A en mano: B-roll stands", "Descanso", "Stands, verticales"),
-    ("11:10–12:00", "Conf. Brenda Hidalgo", "Toma maestra", "Oradora", "Público, detalles"),
-    ("12:05–12:40", "Presidentas + Muro de Impacto", "Toma maestra", "Cada presidenta", "Muro de Impacto, detalles"),
-    ("12:40–17:45", "Desmontaje / receso", "Guarda equipo", "—", "—"),
-    ("17:45–19:00", "Preparación de gala", "Ubicar Cam A en salón de gala", "Audio, prueba baja luz", "Llegada de invitadas"),
-    ("19:00–23:00", "VELAS + CENA DE GALA", "Toma maestra (ISO alto en velas)", "Reconocimientos, firma (+luz)", "Velas, firma cerrado, ambiente"),
-    ("23:00–23:30", "Cierre", "Desmontaje + respaldo final", "Desmontaje", "Respaldo final"),
+    ("07:15–08:30", "Llegada y montaje", "Montar en cajón", "Audio, luz, Cam A", "Balance de blancos", "Prueba gimbal"),
+    ("08:30–09:15", "Conf. Lilian Pinos", "REC", "Oradora", "Público, detalles", "Verticales, reacciones"),
+    ("09:20–10:30", "Estatuto (no se filma)", "—", "Descanso", "Preselección Reel 2", "Descarga iPhone"),
+    ("10:35–11:05", "Pausa café + EXPO", "Pausa / batería", "Revisa Cam A", "Stands", "Stands, networking (9:16)"),
+    ("11:10–12:00", "Conf. Brenda Hidalgo", "REC", "Oradora", "Público, detalles", "Verticales, reacciones"),
+    ("12:05–12:40", "Presidentas + Muro", "REC", "Cada presidenta", "Muro de Impacto", "Detalle de cada proyecto"),
+    ("12:40–17:45", "Desmontaje / receso", "Guardar", "—", "—", "—"),
+    ("17:45–19:00", "Preparación de gala", "Ubicar en salón de gala", "Audio, baja luz", "Llegada invitadas", "Decoración, mesas, velas"),
+    ("19:00–23:00", "VELAS + CENA DE GALA", "REC (ISO alto)", "Reconoc., firma (+luz)", "Velas, firma", "Velas en cerrado, ambiente (9:16)"),
+    ("23:00–23:30", "Cierre", "Desmontaje", "Desmontaje", "Respaldo final", "Descarga iPhone"),
 ]
 
 
 def tabla_horario(ax, filas, bbox):
     t = ax.table(cellText=[list(f) for f in filas],
-                 colLabels=["Hora", "Programa", "Cam A · Daniel", "Cam B · Gino", "Cam C · Antonio"],
-                 bbox=bbox, cellLoc="left", colWidths=[0.09, 0.19, 0.24, 0.22, 0.26])
+                 colLabels=["Hora", "Programa", "Cam A · fija", "Cam B · Gino", "Cam C · Antonio",
+                            "Apoyo C2 · Daniel (iPhone)"],
+                 bbox=bbox, cellLoc="left", colWidths=[0.08, 0.16, 0.15, 0.18, 0.19, 0.24])
     t.auto_set_font_size(False); t.set_fontsize(8)
-    colores = [None, None, CAMS["A"]["color"], CAMS["B"]["color"], "#2e9b4f"]
+    colores = [None, None, CAMS["A"]["color"], CAMS["B"]["color"], "#2e9b4f", MORADO]
     for (r, c), cell in t.get_celld().items():
         cell.set_linewidth(0.4)
         if r == 0:
@@ -458,19 +466,19 @@ def tabla_horario(ax, filas, bbox):
 def lamina_equipo(pdf, total):
     fig = plt.figure(figsize=(16.54, 11.69))
     ax = fig.add_axes([0.03, 0.09, 0.94, 0.88]); ax.axis("off")
-    ax.text(0, 1.0, "EQUIPO Y ASIGNACIÓN DE TOMAS POR HORARIO (3 operadores)", fontsize=13, weight="bold")
+    ax.text(0, 1.0, "EQUIPO Y ASIGNACIÓN DE TOMAS POR HORARIO", fontsize=13, weight="bold")
     t = ax.table(cellText=[list(e) for e in EQUIPO], colLabels=["Persona", "Puesto / equipo", "Función"],
-                 bbox=[0, 0.84, 1, 0.13], cellLoc="left", colWidths=[0.08, 0.25, 0.67])
+                 bbox=[0, 0.82, 1, 0.155], cellLoc="left", colWidths=[0.07, 0.30, 0.63])
     t.auto_set_font_size(False); t.set_fontsize(9)
     for (r, c), cell in t.get_celld().items():
         if r == 0:
             cell.set_facecolor("#222"); cell.set_text_props(color="white", weight="bold")
-    ax.text(0, 0.815, "VIERNES 16 – Mujeres que abren caminos", fontsize=11, weight="bold")
-    tabla_horario(ax, VIERNES, [0, 0.43, 1, 0.37])
-    ax.text(0, 0.405, "SÁBADO 17 – Mujeres que transforman", fontsize=11, weight="bold")
-    tabla_horario(ax, SABADO, [0, 0.06, 1, 0.33])
-    ax.text(0, 0.01, "Con Daniel la Cam A deja de ser fija sin operador: puede reencuadrar, cubrir un 2.º ángulo en "
-            "momentos 'solo C' y liberar a Antonio del respaldo de tarjetas.  Filas resaltadas = prioridad máxima.",
+    ax.text(0, 0.795, "VIERNES 16 – Mujeres que abren caminos", fontsize=11, weight="bold")
+    tabla_horario(ax, VIERNES, [0, 0.42, 1, 0.365])
+    ax.text(0, 0.395, "SÁBADO 17 – Mujeres que transforman", fontsize=11, weight="bold")
+    tabla_horario(ax, SABADO, [0, 0.06, 1, 0.325])
+    ax.text(0, 0.01, "iPhone: grabar 4K 25 fps con app de control manual (p. ej. Blackmagic Camera), WB 3400 K fijo, "
+            "obturación 1/50, bloquear AE/AF. Vertical 9:16 para reels.  Filas resaltadas = prioridad máxima.",
             fontsize=8.5, style="italic")
     cajetin(fig, "LÁMINA 05 · EQUIPO Y ASIGNACIÓN POR HORARIO", 5, total)
     pdf.savefig(fig); plt.close(fig)
@@ -500,18 +508,22 @@ def lamina_momentos(pdf, total):
             ax.text(6.3, 6.2, "C1: de frente,\nretrocediendo", fontsize=6.5, color=verde)
             ax.add_patch(Circle((5.8, 13.6), 0.25, fc=verde)); ax.text(6.2, 13.4, "C2: contraplano\ndesde atrás", fontsize=6.5, color=verde)
             ax.add_patch(Circle((4.7, 2.9), 0.25, fc=verde)); ax.text(2.0, 2.6, "C3: Himno\nplano bajo", fontsize=6.5, color=verde)
+            ax.add_patch(Circle((11.0, 2.9), 0.25, fc=MORADO)); ax.text(11.4, 3.2, "D: banderas llegando\n(desde escenario, 9:16)", fontsize=6.5, color=MORADO)
         elif modo == "ponencia":
             ax.add_patch(Circle((ANCHO - 0.5, 7.5), 0.25, fc=verde)); ax.text(14.5, 8.4, "C: reacciones\ndel público", fontsize=6.5, color=verde)
+            ax.add_patch(Circle((0.5, 11.0), 0.25, fc=MORADO)); ax.text(1.0, 12.3, "D: público y detalles\n(lateral izq., 9:16)", fontsize=6.5, color=MORADO)
             ax.add_patch(Circle((5.8, 3.1), 0.25, fc=verde)); ax.text(3.0, 2.9, "C: detalles\n(sólo en pausas)", fontsize=6.5, color=verde)
         elif modo == "mesas":
             ax.add_patch(Circle((11.0, 3.0), 0.25, fc=verde)); ax.text(11.4, 2.8, "C: lateral der.\n(panelistas en ¾)", fontsize=6.5, color=verde)
             ax.add_patch(Circle((3.5, 9.0), 0.25, fc=verde)); ax.text(2.3, 9.8, "C: público\nque pregunta", fontsize=6.5, color=verde)
+            ax.add_patch(Circle((15.5, 13.0), 0.25, fc=MORADO)); ax.text(13.0, 12.4, "D: otra mesa /\nverticales", fontsize=6.5, color=MORADO)
             ax.text(8.5, 2.6, "Cam B gira a mesa completa", fontsize=6.5, color=CAMS["B"]["color"], ha="center")
         elif modo == "firma":
             lx, ly = LUZ["pos"]
             ax.add_patch(Circle((lx, ly), 0.28, fc="#ffd400", ec="k", zorder=5)); ax.text(lx, ly, "L", ha="center", va="center", fontsize=7, zorder=6)
             ax.add_patch(Circle((10.6, 2.0), 0.25, fc=verde)); ax.text(10.9, 2.6, "C: cerrado a manos\n/ firma (lado mesa)", fontsize=6.5, color=verde)
             ax.add_patch(Circle((5.8, 3.2), 0.25, fc=verde)); ax.text(2.4, 3.2, "C: foto oficial\n(frontal)", fontsize=6.5, color=verde)
+            ax.add_patch(Circle((3.0, 6.5), 0.25, fc=MORADO)); ax.text(1.0, 7.6, "D: velas y reacciones\n(cerrado, 9:16)", fontsize=6.5, color=MORADO)
     cajetin(fig, "LÁMINA 04 · POSICIONES POR MOMENTO DEL PROGRAMA", 4, total)
     pdf.savefig(fig); plt.close(fig)
 
