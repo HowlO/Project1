@@ -40,7 +40,7 @@ H_SENTADO, H_PARADO, H_ORADOR = 1.20, 1.72, TARIMA[4] + 1.62
 # Cámaras: x, y, altura de lente, objetivo (x, y), ancho de encuadre (m), color
 CAMS = {
     "A": dict(pos=(5.8, 14.3), h=2.20, obj=(8.0, 1.0), ancho=11.0,
-              color="#1f6fd1", nombre="Cam A · Plano general fijo",
+              color="#1f6fd1", nombre="Cam A · Plano general (Daniel)",
               equipo="Nikon (Blanca) + trípode alto sobre tarima 0.40 m",
               sensor="Nikon APS-C (factor 1.5)", crop=1.5),
     "B": dict(pos=(0.6, 5.2), h=1.60, obj=(6.4, 1.8), ancho=1.6,
@@ -72,7 +72,7 @@ def cajetin(fig, titulo, lamina, total):
         ax.plot([x, x], [0.1, 0.9], "k-", lw=0.8, transform=ax.transAxes)
     ax.text(0.02, 0.5, f"XI CONGRESO BPW AMÉRICA LATINA · HOTEL MELIÁ LIMA\n{titulo}",
             va="center", fontsize=10, weight="bold", transform=ax.transAxes)
-    ax.text(0.43, 0.5, "Producción: Antonio Liendo / Gino\nFecha de rodaje: 16–17 oct 2026",
+    ax.text(0.43, 0.5, "Equipo: Antonio (C) · Gino (B) · Daniel (A)\nFecha de rodaje: 16–17 oct 2026",
             va="center", fontsize=8, transform=ax.transAxes)
     ax.text(0.63, 0.5, "Medidas ESTIMADAS desde foto (±15 %)\nVerificar con wincha/láser",
             va="center", fontsize=8, color="#b00000", transform=ax.transAxes)
@@ -242,10 +242,10 @@ def lamina_planta(pdf, total):
     y = 0.98
     ax2.text(0, y, "LEYENDA", fontsize=11, weight="bold")
     y -= 0.04
-    items = [("#1f6fd1", "A", "Cam A – plano general fijo"),
-             ("#d1491f", "B", "Cam B – plano medio + audio"),
-             ("#2e9b4f", "C", "Cam C – zonas de trabajo (estabilizador)"),
-             ("#ffd400", "L", "Luz de relleno 45° (Cheng)"),
+    items = [("#1f6fd1", "A", "Cam A – plano general · Daniel"),
+             ("#d1491f", "B", "Cam B – plano medio + audio · Gino"),
+             ("#2e9b4f", "C", "Cam C – estabilizador · Antonio"),
+             ("#ffd400", "L", "Luz de relleno 45° (Cheng) · Gino"),
              ("white", "T", "Tomacorriente supuesto (verificar)"),
              ("#c00000", "", "Zona ciega por la columna"),
              ("#888", "", "Recorrido de cable (pegar con cinta)")]
@@ -268,8 +268,8 @@ def lamina_planta(pdf, total):
     y -= 0.02
     ax2.text(0, y, "NOTAS DE RODAJE", fontsize=11, weight="bold"); y -= 0.035
     notas = [
-        "1. Cam A en el eje del pasillo: único punto sin",
-        "   obstrucción de la columna que ve podio + mesa.",
+        "1. Cam A en el eje del pasillo (Daniel): único",
+        "   punto sin obstrucción que ve podio + mesa.",
         "2. Cam A sobre tarima/cajón 0.40 m: en el Himno",
         "   el público se para y tapa un trípode normal.",
         "3. Cam B pegada a la pared izquierda (fila 2–3):",
@@ -405,6 +405,77 @@ def lamina_ficha(pdf, total):
     pdf.savefig(fig); plt.close(fig)
 
 
+EQUIPO = [
+    ("Antonio", "Cam C · Nikon propia + estabilizador",
+     "Móvil: desfile, público, detalles, EXPO, verticales. Dirección y enlace con la organización."),
+    ("Gino", "Cam B · Canon + trípode + solapa · Luz",
+     "Plano medio/cerrado de oradoras y autoridades. Audio principal. Monta y opera la luz."),
+    ("Daniel", "Cam A · Nikon (Blanca) + trípode alto",
+     "Opera la toma maestra (general ↔ general cerrado). En momentos 'solo C': B-roll en mano y respaldo de tarjetas."),
+]
+
+VIERNES = [
+    ("06:30–07:30", "Llegada y montaje", "Monta tarima/cajón Cam A, cables", "Audio con técnico, luz", "Balance de blancos 3 cám."),
+    ("07:30–08:00", "Llegada de delegaciones", "Plano general del salón llenándose", "Prueba de solapa", "Ingreso, banderas, backdrop"),
+    ("08:00–09:30", "INAUGURACIÓN (prioridad)", "Toma maestra continua", "Autoridades / podio", "Desfile (C1–C3), Himno"),
+    ("09:30–10:30", "Ejecutivo Internacional", "Toma maestra", "Oradoras", "Respaldo tarjetas inaug."),
+    ("10:30–11:00", "Pausa café + EXPO", "Cam A en mano: corte de cinta 2.º ángulo", "Descanso / baterías", "Stands, networking, verticales"),
+    ("11:00–13:15", "Ejecutivo Internacional", "Toma maestra (turnos)", "Intervenciones clave", "Descanso por turnos"),
+    ("13:15–14:45", "Almuerzo", "Respaldo de tarjetas + baterías", "Descanso", "Ambiente y brindis 15–20 min"),
+    ("14:50–16:45", "Mesas redondas", "Cam A a plano de panel completo", "Panelista que habla", "Público que pregunta"),
+    ("16:50–17:20", "Pausa café + EXPO", "Respaldo / apoyo testimonios", "Luz para testimonios", "Testimonios cortos"),
+    ("17:25–18:15", "Espacio «Joven»", "Toma maestra", "Oradoras", "Público, reacciones"),
+    ("18:15–19:00", "Conclusiones", "Cierre + desmontaje", "Desmontaje audio/luz", "Respaldo final"),
+]
+SABADO = [
+    ("07:15–08:30", "Llegada y montaje", "Monta Cam A, cables", "Audio, luz", "Balance de blancos"),
+    ("08:30–09:15", "Conf. Lilian Pinos", "Toma maestra", "Oradora", "Público, detalles"),
+    ("09:20–10:30", "Estatuto (no se filma)", "Respaldo de tarjetas", "Descanso", "Preselección Reel 2"),
+    ("10:35–11:05", "Pausa café + EXPO", "Cam A en mano: B-roll stands", "Descanso", "Stands, verticales"),
+    ("11:10–12:00", "Conf. Brenda Hidalgo", "Toma maestra", "Oradora", "Público, detalles"),
+    ("12:05–12:40", "Presidentas + Muro de Impacto", "Toma maestra", "Cada presidenta", "Muro de Impacto, detalles"),
+    ("12:40–17:45", "Desmontaje / receso", "Guarda equipo", "—", "—"),
+    ("17:45–19:00", "Preparación de gala", "Ubicar Cam A en salón de gala", "Audio, prueba baja luz", "Llegada de invitadas"),
+    ("19:00–23:00", "VELAS + CENA DE GALA", "Toma maestra (ISO alto en velas)", "Reconocimientos, firma (+luz)", "Velas, firma cerrado, ambiente"),
+    ("23:00–23:30", "Cierre", "Desmontaje + respaldo final", "Desmontaje", "Respaldo final"),
+]
+
+
+def tabla_horario(ax, filas, bbox):
+    t = ax.table(cellText=[list(f) for f in filas],
+                 colLabels=["Hora", "Programa", "Cam A · Daniel", "Cam B · Gino", "Cam C · Antonio"],
+                 bbox=bbox, cellLoc="left", colWidths=[0.09, 0.19, 0.24, 0.22, 0.26])
+    t.auto_set_font_size(False); t.set_fontsize(8)
+    colores = [None, None, CAMS["A"]["color"], CAMS["B"]["color"], "#2e9b4f"]
+    for (r, c), cell in t.get_celld().items():
+        cell.set_linewidth(0.4)
+        if r == 0:
+            cell.set_facecolor(colores[c] or "#222"); cell.set_text_props(color="white", weight="bold")
+        elif filas[r - 1][1].isupper() or "(prioridad)" in filas[r - 1][1]:
+            cell.set_facecolor("#fff3d6")
+
+
+def lamina_equipo(pdf, total):
+    fig = plt.figure(figsize=(16.54, 11.69))
+    ax = fig.add_axes([0.03, 0.09, 0.94, 0.88]); ax.axis("off")
+    ax.text(0, 1.0, "EQUIPO Y ASIGNACIÓN DE TOMAS POR HORARIO (3 operadores)", fontsize=13, weight="bold")
+    t = ax.table(cellText=[list(e) for e in EQUIPO], colLabels=["Persona", "Puesto / equipo", "Función"],
+                 bbox=[0, 0.84, 1, 0.13], cellLoc="left", colWidths=[0.08, 0.25, 0.67])
+    t.auto_set_font_size(False); t.set_fontsize(9)
+    for (r, c), cell in t.get_celld().items():
+        if r == 0:
+            cell.set_facecolor("#222"); cell.set_text_props(color="white", weight="bold")
+    ax.text(0, 0.815, "VIERNES 16 – Mujeres que abren caminos", fontsize=11, weight="bold")
+    tabla_horario(ax, VIERNES, [0, 0.43, 1, 0.37])
+    ax.text(0, 0.405, "SÁBADO 17 – Mujeres que transforman", fontsize=11, weight="bold")
+    tabla_horario(ax, SABADO, [0, 0.06, 1, 0.33])
+    ax.text(0, 0.01, "Con Daniel la Cam A deja de ser fija sin operador: puede reencuadrar, cubrir un 2.º ángulo en "
+            "momentos 'solo C' y liberar a Antonio del respaldo de tarjetas.  Filas resaltadas = prioridad máxima.",
+            fontsize=8.5, style="italic")
+    cajetin(fig, "LÁMINA 05 · EQUIPO Y ASIGNACIÓN POR HORARIO", 5, total)
+    pdf.savefig(fig); plt.close(fig)
+
+
 def lamina_momentos(pdf, total):
     fig = plt.figure(figsize=(16.54, 11.69))
     momentos = [
@@ -447,10 +518,11 @@ def lamina_momentos(pdf, total):
 
 if __name__ == "__main__":
     salida = Path(__file__).with_name("Planos_Filmacion_Melia.pdf")
-    total = 4
+    total = 5
     with PdfPages(salida) as pdf:
         lamina_planta(pdf, total)
         lamina_corte(pdf, total)
         lamina_momentos(pdf, total)
         lamina_ficha(pdf, total)
+        lamina_equipo(pdf, total)
     print("OK ->", salida, "| sillas dibujadas:", total_sillas())
